@@ -100,3 +100,4 @@ infinitasActividades = irEscuela:infinitasActividades
 -- evaluando solo los elementos necesarios.
 -- Esto significa que aunque la lista de actividades es infinita,
 -- Haskell solo evalúa hasta el primer punto en el que la condición actividadDecisiva se cumple.
+--aaaaaaaaa
