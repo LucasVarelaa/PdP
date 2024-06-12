@@ -60,7 +60,7 @@ terrible(Animal,Bioma) :-
 
 %3: relaciona 2 animales si ninguno de los dos come al otro
 conpatibles(UnAnimal,OtroAnimal) :-
-    animal(UnAnimal), animal(Otroanimal),
+    animal(UnAnimal), animal(OtroAnimal),
     not(come(UnAnimal,OtroAnimal)),
     not(come(OtroAnimal,UnAnimal)).
 
