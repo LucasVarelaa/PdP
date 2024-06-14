@@ -81,3 +81,6 @@ raro(Animal) :-
 dominante(Animal) :-
     habitat(Animal,Bioma),
     forall((habitat(OtroAnimal,Bioma), Otro \= Animal), come(Animal,Otro)).
+
+%forall(Condición, Acción): Aquí, Condición es una expresión lógica que debe ser verdadera para 
+%todos los elementos, y Acción es la acción que se ejecuta si la condición es verdadera para todos los elementos.

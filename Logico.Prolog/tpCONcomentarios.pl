@@ -88,8 +88,8 @@ civilizacionLider(Civilizacion):-
 
 alcanzoTecnologias(Civilizacion):-
     civilizacion(Civilizacion), % Generación
-    findall(alcanceGlobal(T),distinct(T,jugador(_,Civilizacion,T)),TecnologiasGlobalesMiCiv),
-    findall(alcanceGlobal(T),distinct(T,jugador(_,X,T)),TecnologiasGlobalesGrales),
+    findall(alcanceGlobal(Tecnologia),distinct(Tecnologia,jugador(_,Civilizacion,Tecnologia)),TecnologiasGlobalesMiCiv),
+    findall(alcanceGlobal(Tecnologia),distinct(Tecnologia,jugador(_,X,Tecnologia)),TecnologiasGlobalesGrales),
     length(TecnologiasGlobalesMiCiv,N1),
     length(TecnologiasGlobalesGrales,N2),
     N1=N2.
