@@ -176,7 +176,7 @@ sobreviveAsedio(Jugador) :-
     length(ListaSinEscudo, Cant2),
     Cant1 > Cant2.
 
-% 9) --------------------------------------------------
+% 10) --------------------------------------------------
 
 antecedente(collera,molino).
 antecedente(emplumado,herreria).
