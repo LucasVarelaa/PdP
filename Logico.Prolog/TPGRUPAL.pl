@@ -28,6 +28,8 @@ En los ejemplos, la herrería tiene alcance global, pues Ana, Beto, Carola y Dim
 En los ejemplos, los romanos es una civilización líder pues entre Ana y Dimitri, que juegan con romanos, ya tienen todas las tecnologías que se alcanzaron.
 */
 
+% Primera entrega
+
 % 1)
 %      (Jugador)
 jugador(ana).
@@ -71,35 +73,35 @@ desarrolla(carola, herreria).
 desarrolla(dimitri, herreria).
 desarrolla(dimitri, fundicion).
 
+
 % 2)-----------------------------------------------------------------------------------------------------------------------------------------
 
-expertoEnMetales(Jugador):- 
+expertoenMetales(Jugador):- 
     desarrolla(Jugador,herreria),
     desarrolla(Jugador,forja),
     desarrolla(Jugador,fundicion).
-expertoEnMetales(Jugador):- 
+expertoenMetales(Jugador):- 
     desarrolla(Jugador,herreria),
     desarrolla(Jugador,forja),
     juega(Jugador,romanos).
 
-% 3) --------------------------------------------------------------------------------------------------------------------------------------
 
-civilizacionPopular(Civilizacion) :-
-    juega(Jugador1, Civilizacion),
-    juega(Jugador2, Civilizacion),
-    Jugador1 \= Jugador2.
+% 3) --------------------------------------------------------------------------------------------------------------------------------------
+civilizacion_popular(Civilizacion):-
+    juega(J1,Civilizacion),
+    juega(J2,Civilizacion),
+    J1\=J2.
 
 % 4)-------------------------------------------------------------------------------------------------------------
-
-alcanceGlobal(Tecnologia) :-
+alcanceglobal(Tecnologia) :-
     tecnologia(Tecnologia),
     forall(jugador(Jugador),desarrolla(Jugador,Tecnologia)).
-  
+
 % 5)-----------------------------------------------------------------------------------------------------------
-    
 civilizacionLider(Civilizacion) :-
     civilizacion(Civilizacion),
-    forall(tecnologia(Tecnologia),(juega(Jugador,Civilizacion),desarrolla(Jugador,Tecnologia))).
+    forall(tecnologia(Tecnologia), (juega(Jugador,Civilizacion),desarrolla(Jugador,Tecnologia))).
+
 
 % --------------------------------------------------------------------------------------------------------------
 
@@ -140,36 +142,85 @@ unidad(carola,piqueroConEscudo(2),72). % 65*1.1 = 71.5, redondeo para arriba
 
 % 7) --------------------------------------------------
 
-unidadConMasVida(Jugador, Unidad) :-
+unidadConMasVida(Jugador,Unidad):-
     jugador(Jugador),
-    unidad(Jugador, Unidad, Vida),
-    forall((unidad(Jugador, OtraUnidad, OtraVida), Unidad \= OtraUnidad), Vida > OtraVida).
-/*
-7 ?- unidadConMasVida(ana,Unidad).
-Unidad = jinete(caballo)
-*/
+    unidad(Jugador,Unidad,_),
+    forall((unidad(Jugador,Unidad,Vida),unidad(Jugador,U2,V2),Unidad\=U2),Vida > V2).
+
 
 % 8) --------------------------------------------------
 
-% Definición de las ventajas de tipo de unidad
-leGanaPorTipo(jinete(_), campeon(_)).
-leGanaPorTipo(campeon(_), piqueroSinEscudo(_)).
-leGanaPorTipo(campeon(_), piqueroConEscudo(_)).
-leGanaPorTipo(piqueroSinEscudo(_), jinete(_)).
-leGanaPorTipo(piqueroConEscudo(_), jinete(_)).
-leGanaPorTipo(jinete(camello), jinete(caballo)).
+leGana1(U1,U2):-
+    U1 = jinete(_),
+    U2 = campeon(_).
 
-% Verificar ventaja por tipo de unidad
-leGana(U1, U2) :-
-    leGanaPorTipo(U1, U2).
+pierde1(U2,U1):-leGana1(U1,U2).
 
-% Si no hay ventaja por tipo, comparar por vida
-leGana(U1, U2) :-
-    unidad(_, U1, V1),
-    unidad(_, U2, V2),
-    not(leGanaPorTipo(U1, U2)),
-    not(leGanaPorTipo(U2, U1)),
+
+leGana2(U1,U2):-
+    U1= campeon(_),
+    U2= piqueroConEscudo(_).
+
+pierde2(U2,U1):-leGana2(U1,U2).
+
+leGana3(U1,U2):-
+    U1= campeon(_),
+    U2= piqueroSinEscudo(_).
+pierde3(U2,U1):-leGana3(U1,U2).
+
+leGana4(U1,U2):-
+    U1=piqueroSinEscudo(_),
+    U2=jinete(_).
+pierde4(U2,U1):-leGana4(U1,U2).
+
+leGana5(U1,U2):-
+    U1=piqueroConEscudo(_),
+    U2=jinete(_).
+
+pierde5(U2,U1):-leGana5(U1,U2).
+
+leGana6(U1,U2):-
+    U1=jinete(camello),
+    U2=jinete(caballo).
+
+pierde6(U2,U1):-leGana6(U1,U2).
+
+leGanaConVida(V1,V2):-
     V1 > V2.
+
+
+
+leGanaConVentaja(U1,U2):-leGana1(U1,U2).
+leGanaConVentaja(U1,U2):-leGana2(U1,U2).
+leGanaConVentaja(U1,U2):-leGana3(U1,U2).
+leGanaConVentaja(U1,U2):-leGana4(U1,U2).
+leGanaConVentaja(U1,U2):-leGana5(U1,U2).
+leGanaConVentaja(U1,U2):-leGana6(U1,U2).
+
+pierdeConVentaja(U2,U1):-pierde1(U1,U2).
+pierdeConVentaja(U2,U1):-pierde2(U1,U2).
+pierdeConVentaja(U2,U1):-pierde3(U1,U2).
+pierdeConVentaja(U2,U1):-pierde4(U1,U2).
+pierdeConVentaja(U2,U1):-pierde5(U1,U2).
+pierdeConVentaja(U2,U1):-pierde6(U1,U2).
+
+% Regla pedida (leGana) :
+
+leGana(U1,U2):-
+    unidad(_,U1,V1),
+    unidad(_,U2,V2),
+    U1\=U2,
+    leGanaConVentaja(U1,U2).
+
+
+leGana(U1,U2):-
+    unidad(_,U1,V1),
+    unidad(_,U2,V2),
+    U1\=U2,
+    not(leGanaConVentaja(U1,U2)),
+    not(pierdeConVentaja(U2,U1)),
+    leGanaConVida(V1,V2).
+
 
 % 9) --------------------------------------------------
 
@@ -181,8 +232,12 @@ sobreviveAsedio(Jugador) :-
     length(ListaConEscudo, Cant1),
     length(ListaSinEscudo, Cant2),
     Cant1 > Cant2.
+    
 
-% 9) --------------------------------------------------
+
+% 10) -------------------------------------------------
+
+% a) 
 
 antecedente(collera,molino).
 antecedente(emplumado,herreria).
@@ -197,25 +252,25 @@ antecedente(malla,laminado).
 antecedente(horno,fundicion).
 antecedente(placas,malla).
 
-% Verificar si se pueden desarrollar tecnologías (revisando dependencias)
-puede(Jugador, Tecnologia) :-
+% b) -----------------------------------------
+
+puede(Jugador,Tecnologia):-
+    jugador(Jugador),
     tecnologia(Tecnologia),
-    not(desarrolla(Jugador, Tecnologia)),
-    puedeDesarrollar(Jugador, Tecnologia).
+    not(desarrolla(Jugador,Tecnologia)),
+    Tecnologia = molino.
 
-puedeDesarrollar(Jugador, Tecnologia) :-
-    not(antecedente(Tecnologia, _)). % Tecnología sin dependencias
-% Si no existe ninguna dependencia para Tecnologia (not(antecedente(Tecnologia, _))),
-% entonces Tecnologia se puede desarrollar directamente.
 
-puedeDesarrollar(Jugador, Tecnologia) :-
-    antecedente(Tecnologia, Dependencia),
-    desarrolla(Jugador, Dependencia).
-% Si Tecnologia tiene una dependencia (antecedente(Tecnologia, Dependencia)) y el jugador ya 
-% ha desarrollado esta dependencia (desarrolla(Jugador, Dependencia)), entonces el jugador 
-% puede desarrollar Tecnologia.
+puede(Jugador,Tecnologia):-
+    jugador(Jugador),
+    tecnologia(Tecnologia),
+    not(desarrolla(Jugador,Tecnologia)),
+    Tecnologia = herreria.
 
-puedeDesarrollar(Jugador, Tecnologia) :-
-    antecedente(Tecnologia, Dependencia),
-    puedeDesarrollar(Jugador, Dependencia).
-% verifica que tenga todas sus dependencias
+
+puede(Jugador,Tecnologia):-
+    jugador(Jugador),
+    tecnologia(Tecnologia),
+    not(desarrolla(Jugador,Tecnologia)),
+    antecedente(Tecnologia,Res),
+    desarrolla(Jugador,Res).

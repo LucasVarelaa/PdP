@@ -29,24 +29,37 @@ En los ejemplos, los romanos es una civilización líder pues entre Ana y Dimitr
 */
 
 % 1)
+%      (Jugador)
 jugador(ana).
 jugador(beto).
 jugador(carola).
 jugador(dimitri).
 
+%           (Civilizacion)
 civilizacion(inca).
 civilizacion(romanos).
 
+%         (Tecnologia)
 tecnologia(herreria).
-tecnologia(forja).
+tecnologia(molino).
 tecnologia(emplumado).
+tecnologia(forja).
 tecnologia(laminado).
+tecnologia(collera).
+tecnologia(punzon).
 tecnologia(fundicion).
+tecnologia(malla).
+tecnologia(arado).
+tecnologia(horno).
+tecnologia(placas).
+
+%    (Jugador, Cvilizacion)
 juega(ana, romanos).
 juega(beto, incas).
 juega(carola, romanos).
 juega(dimitri, romanos).
 
+%         (Jugador, Tecnologia)
 desarrolla(ana, herreria).
 desarrolla(ana, forja).
 desarrolla(ana, emplumado).
@@ -58,49 +71,138 @@ desarrolla(carola, herreria).
 desarrolla(dimitri, herreria).
 desarrolla(dimitri, fundicion).
 
-
 % 2)-----------------------------------------------------------------------------------------------------------------------------------------
 
-expertoenMetales(Jugador):- 
+expertoEnMetales(Jugador):- 
     desarrolla(Jugador,herreria),
     desarrolla(Jugador,forja),
     desarrolla(Jugador,fundicion).
-expertoenMetales(Jugador):- 
+expertoEnMetales(Jugador):- 
     desarrolla(Jugador,herreria),
     desarrolla(Jugador,forja),
     juega(Jugador,romanos).
 
-
 % 3) --------------------------------------------------------------------------------------------------------------------------------------
-civilizacion_popular(Civilizacion):-
-    findall(Jugador,juega(Jugador,Civilizacion),Jugadores),
-    length(Jugadores,Cant),
-    civilizacion(Civilizacion),
-    Cant>1.
+
+civilizacionPopular(Civilizacion) :-
+    juega(Jugador1, Civilizacion),
+    juega(Jugador2, Civilizacion),
+    Jugador1 \= Jugador2.
 
 % 4)-------------------------------------------------------------------------------------------------------------
-alcanceglobal(Tecnologia) :-
+
+alcanceGlobal(Tecnologia) :-
     tecnologia(Tecnologia),
-    findall(Jugador, (desarrolla(Jugador, Tecnologia),jugador(Jugador)), Jugadores),
-    findall(Jugador2,(jugador(Jugador2)),ListaJugadores),
-    length(Jugadores,Cant1),
-    length(ListaJugadores,Cant2),
-    Cant1=:=Cant2.
-%=:=: Este operador se utiliza para comparar dos expresiones aritméticas y verificar si son iguales. 
-% Si las expresiones son iguales, devuelve true; de lo contrario, devuelve false.
-
-%findall(Variable, Consulta, Lista): Aquí, Variable es la variable que queremos encontrar, 
-%Consulta es la consulta que queremos resolver y Lista es la lista en la que se almacenarán todas las soluciones encontradas.
-   
+    forall(jugador(Jugador),desarrolla(Jugador,Tecnologia)).
+  
 % 5)-----------------------------------------------------------------------------------------------------------
-    alcanzoTecnologias(Civilizacion):-
-        civilizacion(Civilizacion), % Generación
-        findall(Tecnologia,distinct(Tecnologia,(juega(_,Civilizacion),desarrolla(_,Tecnologia))),TecnologiasCivilizacion),
-        findall(Tecnologia,distinct(Tecnologia,(juega(_,X),desarrolla(_,Tecnologia))),TodasTecnologias),
-        length(TecnologiasCivilizacion,N1),
-        length(TodasTecnologias,N2),
-        N1=N2.
+    
+civilizacionLider(Civilizacion) :-
+    civilizacion(Civilizacion),
+    forall(tecnologia(Tecnologia),(juega(Jugador,Civilizacion),desarrolla(Jugador,Tecnologia))).
 
- alcanzada(Civilizacion, Tecnologia) :-
-     juega(Jugador, Civilizacion),
-     desarrolla(Jugador, Tecnologia).
+% --------------------------------------------------------------------------------------------------------------
+
+% Segunda entrega
+
+% 6) --------------------------------------------------
+
+rangoVidaValido(Vida):-
+    between(1,100,Vida).
+
+
+campeon(Vida):-
+    rangoVidaValido(Vida).
+
+jinete(Animal):-
+    Animal = camello.
+
+jinete(Animal):-
+    Animal = caballo.
+
+piqueroConEscudo(Nivel):-
+    between(1,3,Nivel).
+
+piqueroSinEscudo(Nivel):-
+    between(1,3,Nivel).
+    
+unidad(ana,jinete(caballo),90).
+unidad(ana,piqueroConEscudo(1),55). % 50 * 1.1
+unidad(ana,piqueroSinEscudo(2),65).
+
+unidad(beto,campeon(100),100).
+unidad(beto,campeon(80),80).
+unidad(beto,piqueroConEscudo(1),55).
+unidad(beto,jinete(camello),80).
+
+unidad(carola,piqueroSinEscudo(3),70).
+unidad(carola,piqueroConEscudo(2),72). % 65*1.1 = 71.5, redondeo para arriba
+
+% 7) --------------------------------------------------
+
+unidadConMasVida(Jugador, Unidad) :-
+    jugador(Jugador),
+    unidad(Jugador, Unidad, Vida),
+    forall((unidad(Jugador, OtraUnidad, OtraVida), Unidad \= OtraUnidad), Vida > OtraVida).
+
+% 8) --------------------------------------------------
+
+% Definición de las ventajas de tipo de unidad
+leGanaPorTipo(jinete(_), campeon(_)).
+leGanaPorTipo(campeon(_), piqueroSinEscudo(_)).
+leGanaPorTipo(campeon(_), piqueroConEscudo(_)).
+leGanaPorTipo(piqueroSinEscudo(_), jinete(_)).
+leGanaPorTipo(piqueroConEscudo(_), jinete(_)).
+leGanaPorTipo(jinete(camello), jinete(caballo)).
+
+leGana(U1, U2) :-
+    leGanaPorTipo(U1, U2).
+
+leGana(U1, U2) :-
+    unidad(_, U1, V1),
+    unidad(_, U2, V2),
+    not(leGanaPorTipo(U1, U2)),
+    not(leGanaPorTipo(U2, U1)),
+    V1 > V2.
+
+% 9) --------------------------------------------------
+
+
+sobreviveAsedio(Jugador) :-
+    jugador(Jugador),
+    findall(piqueroConEscudo(Nivel), unidad(Jugador, piqueroConEscudo(Nivel), _), ListaConEscudo),
+    findall(piqueroSinEscudo(Nivel), unidad(Jugador, piqueroSinEscudo(Nivel), _), ListaSinEscudo),
+    length(ListaConEscudo, Cant1),
+    length(ListaSinEscudo, Cant2),
+    Cant1 > Cant2.
+
+% 9) --------------------------------------------------
+
+antecedente(collera,molino).
+antecedente(emplumado,herreria).
+antecedente(forja,herreria).
+antecedente(laminado,herreria).
+
+antecedente(arado,collera).
+antecedente(punzon,emplumado).
+antecedente(fundicion,forja).
+antecedente(malla,laminado).
+
+antecedente(horno,fundicion).
+antecedente(placas,malla).
+
+puede(Jugador, Tecnologia) :-
+    tecnologia(Tecnologia),
+    not(desarrolla(Jugador, Tecnologia)),
+    puedeDesarrollar(Jugador, Tecnologia).
+
+puedeDesarrollar(Jugador, Tecnologia) :-
+    not(antecedente(Tecnologia, _)).
+
+puedeDesarrollar(Jugador, Tecnologia) :-
+    antecedente(Tecnologia, Dependencia),
+    desarrolla(Jugador, Dependencia).
+ 
+tieneTodasLasDependencias(Jugador, Tecnologia) :-
+    antecedente(Tecnologia, Dependencia),
+    puedeDesarrollar(Jugador, Dependencia).

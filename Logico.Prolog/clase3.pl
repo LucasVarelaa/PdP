@@ -105,7 +105,7 @@ puedeConquistar(Jugador,Continente) :-
     jugador(Jugador),ubicadoEn(_,Continente),
     not(controla(Jugador,Continente)),
     forall((ubicadoEn(Pais,Continente),not(ocupa(Jugador,Pais))), pudeAtacar(Jugador,Pais)).
-%   paraToda(Condicion,Accion).
+%   forall(Condicion,Accion).
 % condicion = pais del continente que no tiene
 % accion = puede atacar 
 
@@ -116,4 +116,22 @@ puedeAtacar(Jugador,PaisAtacado) :-
     not((aliados(Jugador,Aliado),ocupa(Aliado,PaisAtacado))).
 
 
+/*
+forall(Condición, Acción)
+Condición: un predicado que debe ser verdadero.
+Acción: un predicado que debe cumplirse para cada caso que satisface la condición.
+ej: forall(member(X, [1, 2, 3]), X > 0).
+Esto verifica que todos los elementos de la lista [1, 2, 3] son mayores que 0.
 
+not(Condición)
+not(member(4, [1, 2, 3])).
+Esto verifica que 4 no es un miembro de la lista [1, 2, 3].
+
+member(Elemento, Lista)
+Elemento: El elemento que se verifica o se genera.
+Lista: La lista en la cual se verifica la pertenencia o de la cual se generan elementos.
+
+findall(Variable, Consulta, Lista): Aquí, Variable es la variable que queremos encontrar, 
+Consulta es la consulta que queremos resolver y Lista es la lista en la que se almacenarán todas las soluciones encontradas.
+ 
+*/
