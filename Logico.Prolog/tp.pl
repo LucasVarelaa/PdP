@@ -203,6 +203,6 @@ puedeDesarrollar(Jugador, Tecnologia) :-
     antecedente(Tecnologia, Dependencia),
     desarrolla(Jugador, Dependencia).
  
-tieneTodasLasDependencias(Jugador, Tecnologia) :-
+puedeDesarrollar(Jugador, Tecnologia) :-
     antecedente(Tecnologia, Dependencia),
     puedeDesarrollar(Jugador, Dependencia).
