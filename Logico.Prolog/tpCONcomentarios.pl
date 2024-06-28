@@ -182,8 +182,9 @@ sobreviveAsedio(Jugador) :-
     length(ListaSinEscudo, Cant2),
     Cant1 > Cant2.
 
-% 9) --------------------------------------------------
+% 9) -------------------------------------------------
 
+%         (dependiente, dependencia)
 antecedente(collera,molino).
 antecedente(emplumado,herreria).
 antecedente(forja,herreria).
@@ -218,4 +219,4 @@ puedeDesarrollar(Jugador, Tecnologia) :-
 puedeDesarrollar(Jugador, Tecnologia) :-
     antecedente(Tecnologia, Dependencia),
     puedeDesarrollar(Jugador, Dependencia).
-% verifica que tenga todas sus dependencias
+% verifica que tenga todas sus dependencias (desde el actual hasta su dependencia de la dependencia y asi)
