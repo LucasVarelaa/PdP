@@ -1,0 +1,18 @@
+{"level":"info","message":"⌛ Building environment","timeElapsed":242,"timestamp":"2024-08-23T12:18:38.141Z"}
+{"level":"info","message":"onRequest - WORKSPACE_URI:file:///c%3A/Users/Lucas/Desktop/PdP/Objetos.Wollok","timestamp":"2024-08-23T12:18:38.150Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":209,"timestamp":"2024-08-23T12:21:09.299Z"}
+{"level":"info","message":"⌛ Validating clase1.wlk","timeElapsed":253,"timestamp":"2024-08-23T12:21:09.561Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":177,"timestamp":"2024-08-23T12:24:58.932Z"}
+{"level":"info","message":"⌛ Validating ejemplo-proyecto/example.wlk","timeElapsed":296,"timestamp":"2024-08-23T12:24:59.238Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":340,"timestamp":"2024-08-23T12:39:17.307Z"}
+{"level":"info","message":"⌛ Validating clase1.wlk","timeElapsed":482,"timestamp":"2024-08-23T12:39:17.866Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":302,"timestamp":"2024-08-23T12:39:22.886Z"}
+{"level":"info","message":"⌛ Validating ejemplo-proyecto/example.wlk","timeElapsed":193,"timestamp":"2024-08-23T12:39:23.112Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":266,"timestamp":"2024-08-23T12:39:46.941Z"}
+{"level":"info","message":"⌛ Validating ejemplo-proyecto/testExample.wtest","timeElapsed":224,"timestamp":"2024-08-23T12:39:47.181Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":330,"timestamp":"2024-08-23T12:40:01.506Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":280,"timestamp":"2024-08-23T12:40:01.790Z"}
+{"level":"info","message":"⌛ Validating ejemplo-proyecto/testExample.wtest","timeElapsed":396,"timestamp":"2024-08-23T12:40:02.188Z"}
+{"level":"info","message":"⌛ Validating ejemplo-proyecto/testExample.wtest","timeElapsed":180,"timestamp":"2024-08-23T12:40:02.373Z"}
+{"level":"info","message":"⌛ Validating ejemplo-proyecto/testExample.wtest","timeElapsed":183,"timestamp":"2024-08-23T12:40:05.965Z"}
+{"failures":[],"level":"info","message":"🧪 Test runner executed on c:/Users/Lucas/Desktop/PdP/Objetos.Wollok","result":{"failed":0,"ok":1},"timeElapsed":487,"timestamp":"2024-08-23T12:41:42.714Z"}
