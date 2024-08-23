@@ -1,5 +1,5 @@
 % https://docs.google.com/document/d/17rWNL8rdNc-eu7VTuCPgptLhSnRD6FyBZNhYNZ7Hekc/edit#heading=h.49nyg2mvbd10
-
+persona(nina, 22, 1.60).
 %       Festivales de Rock
 
 % festival(NombreDelFestival, Bandas, Lugar).
@@ -50,7 +50,7 @@ careta(Festival) :-
     festival(Festival,_,_),
     forall(entradaVendida(Festival,TipoDeEntrada), TipoDeEntrada\=campo).
 %   not(entradaVendida(Festival,campo)).
-
+%
     %%%%%%%%%
     %%% 3 %%%
     %%%%%%%%%

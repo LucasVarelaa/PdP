@@ -1,5 +1,5 @@
 % https://docs.google.com/document/d/12zUNFV4K7Iofc47FN-b7O-gXjTrqgP4dQh47yJVlvw0/edit
-
+persona(nina, 22, 1.60).
 %            La Cárcel
 
 % guardia(Nombre)
