@@ -16,3 +16,7 @@
 {"level":"info","message":"⌛ Validating ejemplo-proyecto/testExample.wtest","timeElapsed":180,"timestamp":"2024-08-23T12:40:02.373Z"}
 {"level":"info","message":"⌛ Validating ejemplo-proyecto/testExample.wtest","timeElapsed":183,"timestamp":"2024-08-23T12:40:05.965Z"}
 {"failures":[],"level":"info","message":"🧪 Test runner executed on c:/Users/Lucas/Desktop/PdP/Objetos.Wollok","result":{"failed":0,"ok":1},"timeElapsed":487,"timestamp":"2024-08-23T12:41:42.714Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":165,"timestamp":"2024-08-23T12:49:16.405Z"}
+{"level":"info","message":"⌛ Validating clase1.wlk","timeElapsed":168,"timestamp":"2024-08-23T12:49:16.575Z"}
+{"level":"info","message":"⌛ Validating ejemplo-proyecto/example.wlk","timeElapsed":142,"timestamp":"2024-08-23T12:49:16.720Z"}
+{"level":"info","message":"⌛ Validating ejemplo-proyecto/testExample.wtest","timeElapsed":113,"timestamp":"2024-08-23T12:49:16.833Z"}
