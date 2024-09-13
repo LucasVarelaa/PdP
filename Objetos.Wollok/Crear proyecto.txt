@@ -1,2 +1,0 @@
-abrir la terminal desde la carpeta obketos.wollok
-en la terminal poner: wollok init --project ejemplo-proyecto (Nombre del proyecto)
