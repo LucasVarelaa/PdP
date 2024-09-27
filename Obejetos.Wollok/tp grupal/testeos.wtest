@@ -1,0 +1,30 @@
+import a.*
+
+test "Poder de Gandalf con toda la vida y todas sus armas" {
+    gandalfGris.vida = 100
+    gandalfGris.armas = [baculo, glamdring]
+    
+    assert.equals(2800, gandalfGris.poder())
+}
+
+test "Poder de Gandalf sin armas y con 80 de vida" {
+    gandalfGris.vida = 80
+    gandalfGris.armas = []
+    
+    assert.equals(1200, gandalfGris.poder())
+}
+
+test "Poder de Gandalf con 5 de vida y su báculo" {
+    gandalfGris.vida = 5
+    gandalfGris.armas = [baculo]
+    
+    assert.equals(2300, gandalfGris.poder())
+}
+
+test "Poder de Gandalf con 30 de vida, su báculo y su espada pero versión enana" {
+    gandalfGris.vida = 30
+    glamdring.origen = "enano"
+    gandalfGris.armas = [baculo, glamdring]
+    
+    assert.equals(1650, gandalfGris.poder())
+}
