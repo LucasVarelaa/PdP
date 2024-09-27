@@ -1,3 +1,4 @@
+
 /*Entre los juegos de simulación de civilizaciones históricas y batallas hay uno que se destaca: 
 El Eish. Es un juego en el que cada jugador escoge una civilización antigua y va desarrollando tecnologías y creando sus unidades. 
 Se pide la codificación en SWI-Prolog, constando de una base de conocimientos con los predicados necesarios para obtener lo que se indica a continuación. 
@@ -109,41 +110,47 @@ civilizacionLider(Civilizacion) :-
 
 rangoVidaValido(Vida):-
     between(1,100,Vida).
-
-
-campeon(Vida):-
-    rangoVidaValido(Vida).
-
-jinete(Animal):-
-    Animal = camello.
-
-jinete(Animal):-
-    Animal = caballo.
-
+    
 piqueroConEscudo(Nivel):-
     between(1,3,Nivel).
 
 piqueroSinEscudo(Nivel):-
     between(1,3,Nivel).
     
-unidad(ana,jinete(caballo),90).
-unidad(ana,piqueroConEscudo(1),55). % 50 * 1.1
-unidad(ana,piqueroSinEscudo(2),65).
+unidad(ana,jinete(caballo)).
+unidad(ana,piqueroConEscudo(1)). 
+unidad(ana,piqueroSinEscudo(2)).
 
-unidad(beto,campeon(100),100).
-unidad(beto,campeon(80),80).
-unidad(beto,piqueroConEscudo(1),55).
-unidad(beto,jinete(camello),80).
+unidad(beto,campeon(100)).
+unidad(beto,campeon(80)).
+unidad(beto,piqueroConEscudo(1)).
+unidad(beto,jinete(camello)).
 
-unidad(carola,piqueroSinEscudo(3),70).
-unidad(carola,piqueroConEscudo(2),72). % 65*1.1 = 71.5, redondeo para arriba
+unidad(carola,piqueroSinEscudo(3)).
+unidad(carola,piqueroConEscudo(2)).
+
+vida(jinete(camello),80).
+vida(jinete(caballo),90).
+
+vida(piqueroSinEscudo(1),50).
+vida(piqueroSinEscudo(2),65).
+vida(piqueroSinEscudo(3),70).
+
+
+vida(campeon(Vida),Vida):- rangoVidaValido(Vida).
+
+
+vida(piqueroConEscudo(Nivel),Vida):-
+    vida(piqueroSinEscudo(Nivel),V),
+    Vida is round(V * 1.1).
 
 % 7) --------------------------------------------------
 
 unidadConMasVida(Jugador, Unidad) :-
     jugador(Jugador),
-    unidad(Jugador, Unidad, Vida),
-    forall((unidad(Jugador, OtraUnidad, OtraVida), Unidad \= OtraUnidad), Vida > OtraVida).
+    unidad(Jugador,Unidad),
+    vida(Unidad,Vida),
+    forall((unidad(Jugador, OtraUnidad), Unidad \= OtraUnidad,vida(OtraUnidad,OtraVida)), Vida > OtraVida).
 
 % 8) --------------------------------------------------
 
@@ -155,54 +162,67 @@ leGanaPorTipo(piqueroSinEscudo(_), jinete(_)).
 leGanaPorTipo(piqueroConEscudo(_), jinete(_)).
 leGanaPorTipo(jinete(camello), jinete(caballo)).
 
-leGana(U1, U2) :-
-    leGanaPorTipo(U1, U2).
+leGana(Ganadora, Perdedora) :-
+    vida(Ganadora,_),
+    vida(Perdedora,_),
+    leGanaPorTipo(Ganadora, Perdedora).
 
-leGana(U1, U2) :-
-    unidad(_, U1, V1),
-    unidad(_, U2, V2),
-    not(leGanaPorTipo(U1, U2)),
-    not(leGanaPorTipo(U2, U1)),
-    V1 > V2.
+leGana(Ganadora, Perdedora) :-
+    vida(Ganadora,VGan),
+    vida(Perdedora,VPer),
+    not(leGanaPorTipo(Ganadora, Perdedora)),
+    not(leGanaPorTipo(Perdedora, Ganadora)),
+    VGan > VPer.
 
 % 9) --------------------------------------------------
 
+    sobreviveAsedio(Jugador) :-
+        jugador(Jugador),
+        cuentaUnidades(Jugador, piqueroConEscudo(_), CantConEscudo),
+        cuentaUnidades(Jugador, piqueroSinEscudo(_), CantSinEscudo),
+        CantConEscudo > CantSinEscudo.
+    
+    cuentaUnidades(Jugador, TipoPiquero, Cantidad) :-
+        findall(TipoPiquero, unidad(Jugador, TipoPiquero), Lista),
+        length(Lista, Cantidad).
 
-sobreviveAsedio(Jugador) :-
+% 10) -------------------------------------------------
+
+% a) 
+
+antecedente(collera, molino).
+antecedente(emplumado, herreria).
+antecedente(forja, herreria).
+antecedente(laminado, herreria).
+antecedente(arado, collera).
+antecedente(punzon, emplumado).
+antecedente(fundicion, forja).
+antecedente(malla, laminado).
+antecedente(horno, fundicion).
+antecedente(placas, malla).
+
+% b) -----------------------------------------
+
+puede(Jugador,molino):-
     jugador(Jugador),
-    findall(piqueroConEscudo(Nivel), unidad(Jugador, piqueroConEscudo(Nivel), _), ListaConEscudo),
-    findall(piqueroSinEscudo(Nivel), unidad(Jugador, piqueroSinEscudo(Nivel), _), ListaSinEscudo),
-    length(ListaConEscudo, Cant1),
-    length(ListaSinEscudo, Cant2),
-    Cant1 > Cant2.
+    not(desarrolla(Jugador,molino)).
 
-% 10) --------------------------------------------------
+puede(Jugador,herreria):-
+    jugador(Jugador),
+    not(desarrolla(Jugador,herreria)).
 
-antecedente(collera,molino).
-antecedente(emplumado,herreria).
-antecedente(forja,herreria).
-antecedente(laminado,herreria).
-
-antecedente(arado,collera).
-antecedente(punzon,emplumado).
-antecedente(fundicion,forja).
-antecedente(malla,laminado).
-
-antecedente(horno,fundicion).
-antecedente(placas,malla).
-
-puede(Jugador, Tecnologia) :-
+desarrollaRecur(Jugador,Tecnologia):-
+    jugador(Jugador),
     tecnologia(Tecnologia),
-    not(desarrolla(Jugador, Tecnologia)),
-    puedeDesarrollar(Jugador, Tecnologia).
+    antecedente(Tecnologia,Res),
+    desarrollaRecur(Jugador,Res).
 
-puedeDesarrollar(Jugador, Tecnologia) :-
-    not(antecedente(Tecnologia, _)).
+desarrollaRecur(Jugador,herreria):-desarrolla(Jugador,herreria).
+desarrollaRecur(Jugador,molino):-desarrolla(Jugador,molino).
 
-puedeDesarrollar(Jugador, Tecnologia) :-
-    antecedente(Tecnologia, Dependencia),
-    desarrolla(Jugador, Dependencia).
- 
-puedeDesarrollar(Jugador, Tecnologia) :-
-    antecedente(Tecnologia, Dependencia),
-    puedeDesarrollar(Jugador, Dependencia).
+puede(Jugador,Tecnologia):-
+    jugador(Jugador),
+    tecnologia(Tecnologia),
+    not(desarrolla(Jugador,Tecnologia)),
+    antecedente(Tecnologia,Res),
+    desarrollaRecur(Jugador,Res).

@@ -1,0 +1,94 @@
+import wollok.game.*
+import example.pepita
+import example.alpiste
+import example.manzana
+import example.nido
+
+// Objeto game
+// Objeto program
+// De forma automatica el juego busca los assets en la carpeta assets
+// var property
+// wollok --init game para crear un juego
+program PepitaGame {
+	// Cuando alguien juega, el juego le manda mensajes a pepita
+	game.title("Pepita")
+	game.height(30)
+	game.width(30)
+	
+	game.boardGround("fondo.jpeg") //game.addVisual(pepita)
+	
+	game.addVisual(pepita)
+	// Al apretar la tecla derecha, me tiene que ejecutar una accion. La escribimos como una lambda
+
+
+	//addVisualCharacter le da a pepita los movimientos en las 4 direcciones
+	//game.addVisualCharacter(pepita)
+	keyboard.right().onPressDo({ pepita.position(pepita.position().right(1)) })
+	// // pepita.position, ahi position es el setter  
+	
+	
+	// // (pepita.position(), ahi position() es el getter
+	// // con right(1) nos movemos una posicion a la derecha 
+	keyboard.left().onPressDo({ pepita.position(pepita.position().left(1)) })
+	
+	keyboard.up().onPressDo({ pepita.position(pepita.position().up(1)) })
+	
+	keyboard.space().onPressDo(
+		{ game.say(
+				pepita,
+				if (pepita.estaCansada()) "Estoy cansado jefe" else "Estoy para volar"
+			) }
+	)
+	// game.onTick(cada cuantos milisegundos, nombre, accion) // Metodo que me permite ejecutar eventos temporales
+	
+	
+	game.onTick(
+		2000,
+		// Cada 2 segundos pepita va bajando una posicion en Y
+		"movimiento",
+		{ pepita.position(pepita.position().down(1)) }
+	) // Mostrar alpiste
+	
+	
+	game.addVisual(alpiste) // Mostrar manzana
+	
+	
+	game.addVisual(manzana) // Mostrar nido
+	
+	
+	game.addVisual(nido) // Mostrar y comer manzana
+	
+	// Si pepita esta arriba del alpiste O arriba de la manzana y toca C, COME
+
+//	keyboard.c().onPressDo{pepita.comer(manzana)}
+
+// 	 keyboard.c().onPressDo(
+//     { if (pepita.position() == manzana.position()) {
+//         pepita.comer(manzana)
+//         game.removeVisual(manzana)
+//       } }
+//   )
+	
+	// Si pepita llega al nido GANA y termina el juego
+	// game.onCollideDo(nido, { elemento =>
+    //         game.say(pepita,"gané")
+    //         game.schedule(2000, {game.stop()})
+    //     })
+
+	game.onCollideDo(nido, {elemento => game.say(nido, "Ganaste Gordo!")})
+
+	
+	// Si pepita se queda sin Energia Muere
+	// Si muere cambia de color a gris su imagen y el juego termina
+	game.onTick(
+		500,
+		// Chequeo cada 500 ms
+		"chequearEnergia",
+		{ if (pepita.energia() <= 0) {
+				pepita.position(game.at(-1, -1)) // Mueve pepita fuera del tablero
+				game.schedule(2000, { game.stop() })
+			} }
+	)
+	
+	game.start() // Mostrar y comer alpiste
+}
