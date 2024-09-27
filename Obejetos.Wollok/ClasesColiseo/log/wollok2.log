@@ -258,3 +258,5 @@
 {"level":"info","message":"⌛ Validating coliseo.wlk","timeElapsed":129,"timestamp":"2024-09-27T14:29:40.172Z"}
 {"level":"info","message":"⌛ Building environment","timeElapsed":103,"timestamp":"2024-09-27T14:29:41.071Z"}
 {"failures":[],"level":"info","message":"🧪 Test runner executed on c:\\Users\\Lucas\\Desktop\\PdP\\Obejetos.Wollok\\ClasesColiseo","result":{"failed":0,"ok":8},"timeElapsed":440,"timestamp":"2024-09-27T14:29:53.385Z"}
+{"level":"info","message":"⌛ Building environment","timeElapsed":147,"timestamp":"2024-09-27T14:31:12.980Z"}
+{"level":"info","message":"⌛ Validating coliseo.wlk","timeElapsed":132,"timestamp":"2024-09-27T14:31:13.114Z"}
