@@ -35,7 +35,7 @@ class Grupo {
 		gladiadores.add(gladiador)
 	}
 
-	method quitarGladiador(gladiador) {
+	method quitariGladiador(gladiador) {
 		gladiadores.remove(gladiador)
 	}
 
