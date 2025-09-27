@@ -1,0 +1,68 @@
+import restaurante.*
+
+describe "Test de comidas"{
+    const deglutidorBuenaOnda = new Deglutidor(
+        dinero = 1500,
+        platosComidos = 21,
+        tieneAuto = true
+    )
+
+    test "Deglutidor buena onda come un plato de comida de costo 100"{
+        deglutidorBuenaOnda.comer()
+        deglutidorBuenaOnda.pagar(100)
+        assert.equals(22, deglutidorBuenaOnda.platosComidos())
+        assert.equals(1400, deglutidorBuenaOnda.dinero())
+    }
+
+    const uruguay = new Lugar(esExotico = false)
+   	const ratatouille = new Plato(nombre = "Ratatouille", costo = 200)
+	const ravioli = new Plato(nombre = "Ravioli", costo = 60)
+	const pasta = new Plato(nombre = "Pasta", costo = 140)
+    const chefProfesor = new Chef()
+    const chefFamoso = new Chef()
+    
+
+    const restComun = new Restaurante(
+		carta = [ravioli, pasta],
+		calificacion = 4,
+		chef = chefProfesor
+	)
+	const restEtnico = new RestauranteEtnico(
+		carta = [ratatouille],
+		calificacion = 1,
+		chef = chefFamoso,
+		lugar = uruguay
+	)
+    const gira = new Gira(
+        personas = [deglutidorBuenaOnda],
+        casasComidas = [restEtnico,restComun],
+        costoEstimadoPorPersona = 500
+    )
+    const pobre = new CriticoCulinario(dinero = 100, platosComidos = 1, horasPrograma = 20)
+    const pablo = new CriticoCulinario(dinero = 3000, platosComidos = 1, horasPrograma = 20)
+
+    test"Intentar agregar una persona con dinero insuficiente"{
+        gira.agregarPersona(pobre)
+        assert.equals(2, gira.personas().size())
+    }
+    test"Intentar agregar una persona que si puede ir a la gira"{
+        gira.agregarPersona(pablo)
+        assert.equals(2, gira.personas().size())
+    }
+
+    test"La gira vale la pena"{
+        assert.that(gira.valePena())
+    }
+
+    const giraBarata = new Gira(
+        personas = [deglutidorBuenaOnda],
+//        casasComidas = [restComun],
+        costoEstimadoPorPersona = 100)
+    test "Deglutidor buena onda principiante hace gira, categoriza dos veces, y se hace experto" {
+		giraBarata.agregarPersona(deglutidorBuenaOnda)
+		giraBarata.comerEn(restComun)
+		deglutidorBuenaOnda.recategorizar()
+		deglutidorBuenaOnda.recategorizar()
+		assert.equals(experto, deglutidorBuenaOnda.categoria())
+	}
+} 

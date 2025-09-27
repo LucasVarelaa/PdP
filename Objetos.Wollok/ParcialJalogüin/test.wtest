@@ -1,0 +1,44 @@
+import chicos.*
+import adultos.*
+import legion.*
+
+describe "test jaloguin" {
+	const adulto = new Adulto()
+	const necio = new Necio()
+	const abuelo = new Abuelo()
+	const chicoConActitud = new Chico(actitud = 10, caramelos = 20)
+	const chicoSinActitud = new Chico(actitud = 0, caramelos = 5)
+	const winiePoo = new TrajeTierno() 
+	const frankenstein = new TrajeTerrorifico()
+	const legion = new Legion(chicos = [chicoConActitud, chicoSinActitud])
+
+	method initialize() {
+		chicoConActitud.ponerse(frankenstein)
+		chicoSinActitud.ponerse(winiePoo)
+	} // lo mismo que inicializarlo en el new yo mismo
+	
+	test "Un chico no recibe caramelos al asustar a un necio" {
+		necio.seAsusta(chicoConActitud)
+		assert.equals(20, chicoConActitud.caramelos()) // misma cant caramelos que las que tenia
+	}
+	
+	test "Un chico con actitud maxima(10) y disfraz terrorifico" {
+		assert.equals(50,chicoConActitud.capacidadSusto())
+	}
+	
+	test "Un chico asusta por primera vez a un adulto y no consigue nada" {
+		adulto.seAsusta(chicoConActitud)
+		assert.equals(20,chicoConActitud.caramelos())
+	}
+	test "Un chico con muchos caramelos asusta dos veces a un adulto y consigue 5 caramelos" {
+		adulto.seAsusta(chicoConActitud)
+		adulto.seAsusta(chicoConActitud)
+		assert.equals(25,chicoConActitud.caramelos())
+	}
+	
+	test "Un abuelo es asustado dos veces por la legion del terror y su lider se queda con los 2 caramelos" {
+		abuelo.seAsusta(legion)
+		abuelo.seAsusta(legion)
+		assert.equals(22,chicoConActitud.caramelos())
+	}
+}

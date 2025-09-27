@@ -1,0 +1,52 @@
+import intensa.*
+
+describe "group of tests " {
+  const riley = new Persona(edad = 12)
+  const alegriaR = new Alegria(intensidad=20)
+  const tristezaR = new Tristeza(intensidad = 70)
+
+  const padre = new Persona(edad = 40)
+  const alegriaP = new Alegria(intensidad=50)
+  const otraP = new OtraEmocion(intensidad = 20)
+  const furiaP = new Furia()
+
+  const partido = new Evento(impacto=10, descripcion="hockey")
+  test "un adolescente " {
+    
+    assert.that( riley.esAdolescente())
+  }
+
+  test "por explotar emocionalmente con tristeza por no melancolia" {
+    tristezaR.causa("escuela")
+    riley.tenerEmocion(alegriaR)
+    riley.tenerEmocion(tristezaR)
+    assert.that(riley.estaPorExplotar())
+  }
+
+  test "no esta por explotar emocionalmente con tristeza por melancolia" {
+    riley.tenerEmocion(alegriaR)
+    riley.tenerEmocion(tristezaR)
+    assert.notThat(riley.estaPorExplotar())
+  }
+
+  test "un evento es alterador"{
+    var cantidad
+    intensamente.agregarPersona(riley)
+    riley.tenerEmocion(alegriaR)
+    riley.tenerEmocion(tristezaR)
+    tristezaR.causa("escuela")
+
+    intensamente.agregarPersona(padre)
+    padre.tenerEmocion(alegriaP)
+    padre.tenerEmocion(furiaP)
+    padre.tenerEmocion(otraP)
+    furiaP.aprenderPalabrota("xxxxxxxxxx")
+
+    cantidad = intensamente.cantPersonasPorExplotar()
+
+    intensamente.todosViven(partido)
+
+    assert.notEquals (cantidad, intensamente.cantPersonasPorExplotar())
+
+  }
+}

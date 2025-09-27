@@ -1,0 +1,26 @@
+import cartas.*
+
+test "juanCruz consigue una carta"{
+    juanCruz.conseguirCarta(anchoDeEspadas)
+    assert.that(juanCruz.tieneCarta(anchoDeEspadas))
+}
+
+test "juanCruz no tiene una carta"{
+    juanCruz.conseguirCarta(anchoDeEspadas)
+    assert.notThat(juanCruz.tieneCarta(cartaYugiOh))
+}
+
+test "juanCruz consigue y vende varias cartas"{
+    juanCruz.conseguirCarta(cartaPikachu)
+    juanCruz.vender()
+    assert.equals(10, juanCruz.cuantaPlataTenes())
+    assert.notThat(juanCruz.tieneCarta(cartaPikachu))
+}
+
+test "cotizacion de la coleccion de juanCruz" {
+    juanCruz.conseguirCarta(cartaPikachu)
+    juanCruz.conseguirCarta(anchoDeEspadas)
+    juanCruz.conseguirCarta(cartaYugiOh)
+    juanCruz.visitaExperto()
+    assert.equals(707+10+200, juanCruz.cotizacion())
+}

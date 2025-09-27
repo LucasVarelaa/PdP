@@ -1,0 +1,41 @@
+import a.*
+import casas.*
+import hechizos.*
+
+describe "profesores, estudiantes y materias"{ 
+
+const defensaContraHackeosOscuros = new Materia(profesor=new Profesor (casa=slytherin, hechizosAprendidos = [], materiasDictadas = [defensaContraHackeosOscuros]), hechizoEnseniado=inmobilus)
+const clase2 = new Materia(profesor=new Profesor (casa=gryffindor, hechizosAprendidos = [], materiasDictadas = [defensaContraHackeosOscuros]), hechizoEnseniado=sectumSempra)
+const severus = new Profesor (casa=slytherin, hechizosAprendidos = [], materiasDictadas = [defensaContraHackeosOscuros])
+const harry = new Estudiante(cargaElectrica=80,casa=gryffindor, hechizosAprendidos = [])
+const draco = new Estudiante(casa=slytherin, aceitePuro=true, hechizosAprendidos = [])
+
+method initialize() {
+		harry.asistirA(defensaContraHackeosOscuros)	
+		harry.asistirA(clase2)	
+	}
+
+
+
+
+test "harry asiste a clase y aprende materia" {
+	assert.that(harry.hechizosAprendidos().contains(inmobilus))
+}
+
+/* Harry, con carga electrica 80, apenas ingresa a Hogwart no puede lanzar ningun hechizo.
+	Luego asiste a cuatro clases, entre ellas una en la que aprende el "sectum sempra".
+	Intenta lanzarle dicho hechizo a Draco y lo logra. Draco, que era aceite puro, queda con aceite sucio.
+	Mas tarde, Harry le lanza el hechizo al sombrero seleccionador, logra lanzarlo, pero al sombrero, aún
+	siendo aceite puro, no le sucede nada.
+ */
+ 
+test "harry lanza hechizo"{
+	harry.lanzarHichizoA(draco, sectumSempra )
+	assert.notThat(draco.aceitePuro())	
+}
+
+test "inmunidad Sombrero Bot"{
+	harry.lanzarHichizoA(sombreroBotSeleccionador, sectumSempra)
+	assert.notThat(sombreroBotSeleccionador.aceitePuro())	
+}
+}

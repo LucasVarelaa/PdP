@@ -1,0 +1,76 @@
+import wollok.game.*
+import example.pepita
+import example.alpiste
+import example.manzana
+import example.nido
+
+// Objeto game
+// Objeto program
+// De forma automatica el juego busca los assets en la carpeta assets
+// var property
+// wollok --init game para crear un juego
+program PepitaGame {
+	
+	game.title("Pepita")
+	game.height(30)
+	game.width(30)
+	
+	game.boardGround("fondo.jpeg")
+	
+	game.addVisual(pepita)
+	game.addVisual(alpiste)
+	game.addVisual(manzana)
+	game.addVisual(nido)
+
+	keyboard.right().onPressDo({ pepita.position(pepita.position().right(1)) })
+
+	keyboard.left().onPressDo({ pepita.position(pepita.position().left(1)) })
+	
+	keyboard.up().onPressDo({ pepita.position(pepita.position().up(1)) })
+	
+	keyboard.space().onPressDo(
+		{ game.say(
+				pepita,(if (pepita.estaCansada()) "Estoy cansado jefe" else "Estoy para volar") + pepita.energia()
+			) }
+	)
+	// game.onTick(cada cuantos milisegundos, nombre, accion) // Metodo que me permite ejecutar eventos temporales
+	
+	
+	game.onTick(
+		3000,
+		// Cada 2 segundos pepita va bajando una posicion en Y
+		"movimiento",
+		{ pepita.position(pepita.position().down(1)) }
+	) // Mostrar alpiste
+
+	game.onCollideDo(pepita, {cosa => cosa.reaccionar(pepita)})
+
+	game.start()
+}
+
+
+// TIPOS DE LISTAS
+
+// COLECCIONES
+
+// CONJUNTOS
+
+// Set: Conjuntos no permite elementos repetidos
+// var unConjunto = #{6,7,8,9}
+// var otroConjunto = #{1,2,3,4}
+// otroConjunto.union(unConjunto) ... devuelve #{1,2,3,4,6,7,8,9}
+// otroConjunto.intersection(unConjunto) ... devuelve #{6,7,8,9}
+// union entre dos conjuntos
+// otroConjunto.union(otroConjunto)
+
+// Si a una lista le paso . set me devuelve la lista sin elementos repetidos
+// [1,2,5,6,1,2,5,6].set == [1,2,5,6]
+
+
+// 
+
+
+// RANGOS
+// (1.10).size() ... devuelve 10 (length)
+// (1..10).contains(7) ... devuelve true
+// (1..10).filter{x => x.even} ... devuelve [2,4,6,8,10]

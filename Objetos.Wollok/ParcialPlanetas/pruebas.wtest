@@ -1,0 +1,50 @@
+import personas.*
+import construcciones.*
+import planetas.*
+
+describe "group of tests " {
+
+  test "un planeta con cuatro personas como habitantes, dos murallas y un museo" {
+    const tito = new Persona(edad=90, monedas=50)
+    const lolo = new Persona(edad=40, monedas=8)
+    const lili = new Persona(edad=25, monedas=20)
+    const tata = new Persona(edad=5, monedas=5)
+    const muralla1 = new Muralla(longitud=10)
+    const muralla2 = new Muralla(longitud=20)
+    const museo = new Museo(superficie=30, importancia=5)
+    const planeta = new Planeta(habitantes=[tito, lolo, lili, tata], construcciones=[muralla1, muralla2, museo])
+    assert.that(planeta.delegacion().size() == 3 && planeta.esValioso())
+  }
+
+  test "una persona destacada por su edad" {
+    const tito = new Persona(edad=40)
+    assert.that(tito.esDestacada())
+  }
+
+  test "una persona destacada por sus recursos" {
+    const tito = new Persona(monedas=30)
+    assert.that(tito.esDestacada())
+  }
+
+  test "1" {
+    const tito = new Constructor(cantidadConstrucciones=5, regionDelPlaneta = "llanura")
+    const lolo = new Constructor(cantidadConstrucciones=1, regionDelPlaneta = "mar")
+    const lili = new Constructor(cantidadConstrucciones=2, regionDelPlaneta = "costa")
+    const tata = new Constructor(cantidadConstrucciones=3, regionDelPlaneta = "montana")
+    const lala = new Productor(tecnicas=["cultivo", "fertilizacion"])
+    assert.that(tito.esDestacada())
+  }
+
+    test "Prueba 1: Constructores y Productores" {
+    const tito = new Constructor(cantidadConstrucciones=5, regionDelPlaneta="llanura")
+    const lolo = new Constructor(cantidadConstrucciones=1, regionDelPlaneta="mar")
+    const lili = new Constructor(cantidadConstrucciones=2, regionDelPlaneta="costa")
+    const tata = new Constructor(cantidadConstrucciones=3, regionDelPlaneta="montana")
+    const lala = new Productor(tecnicas=["cultivo", "fertilizacion"])
+
+    // Verificar que algunos son destacados
+    assert.that(tito.esDestacada())
+    assert.that(!lolo.esDestacada())
+}
+
+}

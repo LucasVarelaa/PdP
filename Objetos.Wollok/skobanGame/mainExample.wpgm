@@ -1,0 +1,13 @@
+import wollok.game.* 
+import sokobanGame.*
+
+program SokobanGame {
+	game.title("Sokoban")
+	game.height(7)
+	game.width(9)
+	game.boardGround("suelo.png")
+
+	nivel1.cargar()
+	
+	game.start()
+}
